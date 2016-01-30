@@ -1,7 +1,7 @@
 自定义组件实现虚拟摇杆(joystick)
 ----------------------------------------
 
-* 1.在场景中放一个按钮控件，把它的图片换成虚拟摇杆的图片。
+* 1.在场景中放一个按钮控件，把它的图片换成虚拟摇杆的图片。在按钮控件中再放一张图片控件，把它的图片换成trackball的图片。
 
 * 2.选中该按钮控件，打开右见菜单“生成组件”，进入高级选项。
 
@@ -9,7 +9,7 @@
 
 * 4.添加一个bool属性eightKeys来表示八向键盘(否则为四向键盘)。
 
-* 5.添加一个Int属性pressRepeat来表示，如果按住不放，多长时间重复发送onPressed事件。
+* 5.添加一个Int属性pressRepeat来表示如果按住不放，多长时间重复发送onPressed事件。
 
 * 6.在onInit事件中添加自定义函数(为了防止自定义函数覆盖组件本身的函数，建议给自定义函数的加一个特殊的前缀)。
 ```
@@ -190,3 +190,6 @@ figure.x += args.dx*2;
 figure.y += args.dy*2;
 ```
 
+[运行效果](http://54.223.93.3:10240/apprun.html?appid=previewgithubdrawapp8-cn_release908483a0-c6d7-11e5-b7ca-5b9b8a3da8ed)
+
+[在线编辑](http://54.223.93.3:10240/gamebuilder.php?appid=previewgithubdrawapp8-cn_release908483a0-c6d7-11e5-b7ca-5b9b8a3da8ed)
