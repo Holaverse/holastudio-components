@@ -69,10 +69,6 @@ this.onTimer = function() {
 }
 
 this.dispatchKeyPressed = function(point) {
-    var cx = this.w>>1;
-    var cy = this.h>>1;
-    var cp = {x:cx, y:cy};
-    
     var info = this.pressedInfo;
     var angle = info.angle;
     
