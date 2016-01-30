@@ -1,0 +1,119 @@
+{
+	"type": "ui-button",
+	"name": "my-ui-button-825",
+	"uid": 11205,
+	"z": 9,
+	"w": 166,
+	"h": 164,
+	"pivotX": 0.5,
+	"pivotY": 0.5,
+	"rotation": 0,
+	"opacity": 1,
+	"hMargin": 5,
+	"vMargin": 5,
+	"scaleX": 1,
+	"scaleY": 1,
+	"runtimeVisible": true,
+	"enable": true,
+	"visible": true,
+	"text": "",
+	"x": 133,
+	"y": 326,
+	"style": {
+		"lineWidth": 2,
+		"lineColor": "Red",
+		"fillColor": "White",
+		"textColor": "#b8b8b8",
+		"fontSize": 18,
+		"fontFamily": "serif"
+	},
+	"xAttr": 2,
+	"yAttr": 2,
+	"widthAttr": 0,
+	"heightAttr": 0,
+	"xParam": 0.27708333333333335,
+	"yParam": 0.4075,
+	"widthParam": 1,
+	"heightParam": 1,
+	"images": {
+		"display": 4,
+		"active_bg": "storage/read.php?path=github/2/2825583/joystick/joy_stick_bg.png",
+		"normal_bg": "storage/read.php?path=github/2/2825583/joystick/joy_stick_bg.png",
+		"disable_bg": "assets/controls/button_active.png"
+	},
+	"events": {
+		"onClick": null,
+		"onUpdateTransform": null,
+		"onPointerDown": "if(beforeChild) {\n    return;\n}\n\nvar child = this.getChild(0);\nif(child) {\n    child.setPosition(point.x, point.y);\n}\n\nthis.pressedPoint = point;\nthis.computePressedInfo(point);\nthis.moveChildToPoint(point);\n\nif(this.keyRepeat) {\n    this.onTimer();\n}\nelse {\n    this.dispatchKeyPressed(point);\n}",
+		"onPointerMove": "if(beforeChild || !this.pointerDown) {\n    return;\n}\n\n\nthis.pressedPoint = point;\nthis.computePressedInfo(point);\nthis.moveChildToPoint(point);",
+		"onPointerUp": "if(beforeChild) {\n    return;\n}\n\nthis.moveChildToPoint(null);\nthis.pressedPoint = null;",
+		"onKeyPressed": "var figure = this.win.find(\"image\");\nfigure.x += args.dx*2;\nfigure.y += args.dy*2;",
+		"onInit": "var child = this.getChild(0);\nif(child) { \n    child.setAnchor(0.5, 0.5);\n}\n\nthis.pressedInfo = {};\n \nthis.computePressedInfo = function(point) {\n    var cx = this.w>>1;\n    var cy = this.h>>1;\n    var cp = {x:cx, y:cy};\n    var child = this.getChild(0);\n    \n    var R = Math.min(cx, cy);\n    var r = child ? Math.max(child.w >> 1, child.h >> 1) : 0;   \n    var angle = Math.lineAngle(cp, point) * (180/Math.PI);\n    var distance = Math.distanceBetween(cp, point);\n    \n    this.pressedInfo.angle = angle;\n    this.pressedInfo.distance = Math.min(distance, R-r);\n    \n    return this.pressedInfo;\n}\n\nthis.moveChildToPoint = function(point) {\n    var child = this.getChild(0);\n    if(!child) { \n        return;\n    }\n   \n   if(!point) {\n       child.setPosition(this.w >> 1, this.h>>1);\n       return;\n   }\n\n    var cx = this.w>>1;\n    var cy = this.h>>1;\n    var info = this.pressedInfo;\n    var r = info.distance;\n    var angle = info.angle/(180/Math.PI);\n    var x = cx + r * Math.cos(angle);\n    var y = cy + r * Math.sin(angle);   \n    \n    child.setPosition(x, y);\n};\n\nthis.onTimer = function() {\n    if(!this.keyRepeat || !this.pressedPoint) {\n        return;\n    }\n    \n    this.dispatchKeyPressed(this.pressedPoint);\n    setTimeout(this.onTimer.bind(this), this.keyRepeat);\n}\n\nthis.dispatchKeyPressed = function(point) {\n    var cx = this.w>>1;\n    var cy = this.h>>1;\n    var cp = {x:cx, y:cy};\n    \n    var info = this.pressedInfo;\n    var angle = info.angle;\n    \n    if(this.eightKeys) {\n        if(angle >= 337.5 || angle < 22.5) {\n            info.key = \"right\";\n            info.dx = 1;\n            info.dy = 0;\n        }\n        else if(angle <= 67.5) {\n            info.key = \"right-down\";\n            info.dx = 1;\n            info.dy = 1;\n        }\n        else if(angle <= 112.5) {\n            info.key = \"down\";\n            info.dx = 0;\n            info.dy = 1;\n        }  \n        else if(angle <= 157.5) {\n            info.key = \"left-down\";\n            info.dx = -1;\n            info.dy = 1;\n        }     \n        else if(angle <= 202.5) {\n            info.key = \"left\";\n            info.dx = -1;\n            info.dy = 0;\n        }  \n        else if(angle <= 247.5) {\n            info.key = \"left-up\";\n            info.dx = -1;\n            info.dy = -1;\n        }\n        else if(angle <= 292.5) {\n            info.key = \"up\";\n            info.dx = 0;\n            info.dy = -1;\n        }        \n        else {\n            info.key = \"right-up\";\n            info.dx = 1;\n            info.dy = -1;            \n        }\n    }\n    else {\n        if(angle >= 315 || angle < 45) {\n            info.key = \"right\";\n            info.dx = 1;\n            info.dy = 0;\n        }\n        else if(angle <= 135) {\n            info.key = \"down\";\n            info.dx = 0;\n            info.dy = 1;\n        }  \n        else if(angle <= 225) {\n            info.key = \"left\";\n            info.dx = -1;\n            info.dy = 0;\n        }  \n        else {\n            info.key = \"up\";\n            info.dx = 0;\n            info.dy = -1;\n        }        \n    }\n    this.dispatchCustomEvent(\"onKeyPressed\", info);\n}\n"
+	},
+	"propertySheetDesc": {
+		"eightKeys": {
+			"type": "bool",
+			"displayName": "Eight Keys(八向键)"
+		},
+		"keyRepeat": {
+			"type": "int",
+			"displayName": "Press Repeat(ms)",
+			"min": 0,
+			"max": 10000
+		}
+	},
+	"eightKeys": true,
+	"keyRepeat": 25,
+	"children": [
+		{
+			"type": "ui-image",
+			"name": "image",
+			"uid": 14168,
+			"z": 0,
+			"w": 42,
+			"h": 42,
+			"pivotX": 0.5,
+			"pivotY": 0.5,
+			"rotation": 0,
+			"opacity": 1,
+			"hMargin": 0,
+			"vMargin": 0,
+			"scaleX": 1,
+			"scaleY": 1,
+			"runtimeVisible": true,
+			"enable": true,
+			"visible": true,
+			"text": "",
+			"locked": false,
+			"x": 66,
+			"y": 65,
+			"style": {
+				"lineWidth": 2,
+				"lineColor": "#7d471b",
+				"fillColor": "White",
+				"textColor": "Blue",
+				"fontSize": 16,
+				"fontFamily": "sans"
+			},
+			"keepSizeWithImage": false,
+			"xAttr": 2,
+			"yAttr": 2,
+			"widthAttr": 0,
+			"heightAttr": 0,
+			"xParam": 0.39759036144578314,
+			"yParam": 0.39634146341463417,
+			"widthParam": 1,
+			"heightParam": 1,
+			"images": {
+				"display": 4,
+				"default_bg": "storage/read.php?path=github/2/2825583/joystick/joy_stick_ball.png"
+			},
+			"events": {
+				"onClick": null,
+				"onDoubleClick": null,
+				"onUpdateTransform": null
+			},
+			"children": []
+		}
+	]
+}
