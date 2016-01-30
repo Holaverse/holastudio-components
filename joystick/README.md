@@ -11,7 +11,182 @@
 
 * 5.添加一个Int属性pressRepeat来表示，如果按住不放，多长时间重复发送onPressed事件。
 
-* 6.自定义函数。
+* 6.在onInit事件中添加自定义函数(为了防止自定义函数覆盖组件本身的函数，建议给自定义函数的加一个特殊的前缀)。
 ```
+var child = this.getChild(0);
+if(child) { 
+    child.setAnchor(0.5, 0.5);
+}
+
+this.pressedInfo = {};
+ 
+this.computePressedInfo = function(point) {
+    var cx = this.w>>1;
+    var cy = this.h>>1;
+    var cp = {x:cx, y:cy};
+    var child = this.getChild(0);
+    
+    var R = Math.min(cx, cy);
+    var r = child ? Math.max(child.w >> 1, child.h >> 1) : 0;   
+    var angle = Math.lineAngle(cp, point) * (180/Math.PI);
+    var distance = Math.distanceBetween(cp, point);
+    
+    this.pressedInfo.angle = angle;
+    this.pressedInfo.distance = Math.min(distance, R-r);
+    
+    return this.pressedInfo;
+}
+
+this.moveChildToPoint = function(point) {
+    var child = this.getChild(0);
+    if(!child) { 
+        return;
+    }
+   
+   if(!point) {
+       child.setPosition(this.w >> 1, this.h>>1);
+       return;
+   }
+
+    var cx = this.w>>1;
+    var cy = this.h>>1;
+    var info = this.pressedInfo;
+    var r = info.distance;
+    var angle = info.angle/(180/Math.PI);
+    var x = cx + r * Math.cos(angle);
+    var y = cy + r * Math.sin(angle);   
+    
+    child.setPosition(x, y);
+};
+
+this.onTimer = function() {
+    if(!this.keyRepeat || !this.pressedPoint) {
+        return;
+    }
+    
+    this.dispatchKeyPressed(this.pressedPoint);
+    setTimeout(this.onTimer.bind(this), this.keyRepeat);
+}
+
+this.dispatchKeyPressed = function(point) {
+    var cx = this.w>>1;
+    var cy = this.h>>1;
+    var cp = {x:cx, y:cy};
+    
+    var info = this.pressedInfo;
+    var angle = info.angle;
+    
+    if(this.eightKeys) {
+        if(angle >= 337.5 || angle < 22.5) {
+            info.key = "right";
+            info.dx = 1;
+            info.dy = 0;
+        }
+        else if(angle <= 67.5) {
+            info.key = "right-down";
+            info.dx = 1;
+            info.dy = 1;
+        }
+        else if(angle <= 112.5) {
+            info.key = "down";
+            info.dx = 0;
+            info.dy = 1;
+        }  
+        else if(angle <= 157.5) {
+            info.key = "left-down";
+            info.dx = -1;
+            info.dy = 1;
+        }     
+        else if(angle <= 202.5) {
+            info.key = "left";
+            info.dx = -1;
+            info.dy = 0;
+        }  
+        else if(angle <= 247.5) {
+            info.key = "left-up";
+            info.dx = -1;
+            info.dy = -1;
+        }
+        else if(angle <= 292.5) {
+            info.key = "up";
+            info.dx = 0;
+            info.dy = -1;
+        }        
+        else {
+            info.key = "right-up";
+            info.dx = 1;
+            info.dy = -1;            
+        }
+    }
+    else {
+        if(angle >= 315 || angle < 45) {
+            info.key = "right";
+            info.dx = 1;
+            info.dy = 0;
+        }
+        else if(angle <= 135) {
+            info.key = "down";
+            info.dx = 0;
+            info.dy = 1;
+        }  
+        else if(angle <= 225) {
+            info.key = "left";
+            info.dx = -1;
+            info.dy = 0;
+        }  
+        else {
+            info.key = "up";
+            info.dx = 0;
+            info.dy = -1;
+        }        
+    }
+    this.dispatchCustomEvent("onKeyPressed", info);
+}
+```
+
+* 7.处理PointerDown事件。
+```
+if(beforeChild) {
+    return;
+}
+
+this.pressedPoint = point;
+this.computePressedInfo(point);
+this.moveChildToPoint(point);
+
+if(this.keyRepeat) {
+    this.onTimer();
+}
+else {
+    this.dispatchKeyPressed(point);
+}
+```
+
+* 8.处理PointerMove事件。
+```
+if(beforeChild || !this.pointerDown) {
+    return;
+}
+
+
+this.pressedPoint = point;
+this.computePressedInfo(point);
+this.moveChildToPoint(point);
+```
+* 9.处理PointerUp事件。
+```
+if(beforeChild) {
+    return;
+}
+
+this.moveChildToPoint(null);
+this.pressedPoint = null;
+```
+
+* 10.使用时只需要处理onKeyPressed事件即可，下面的例子移动场景中的人物，你还可以根据移动的方向切换不同的行走动画。
+```
+var figure = this.win.find("image");
+figure.x += args.dx*2;
+figure.y += args.dy*2;
 ```
 
