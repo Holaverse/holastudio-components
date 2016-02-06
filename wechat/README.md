@@ -9,10 +9,12 @@
 
 * 4.在onInit事件中添加自定义函数(为了防止自定义函数覆盖组件本身的函数，建议给自定义函数的加一个特殊的前缀)。
 ```
+this.spacer = 10;
+
 //=============================================================================
 //以下数据通过生成自定义组件获得。
 //=============================================================================
-var leftItem = {
+this.itemJson = {
 	"type": "ui-list-item",
 	"name": "left-item",
 	"uid": 19213,
@@ -159,8 +161,6 @@ var leftItem = {
 				"display": 2
 			},
 			"events": {
-				"onClick": null,
-				"onUpdateTransform": null
 			},
 			"handle": {
 				"x": -15,
@@ -170,175 +170,12 @@ var leftItem = {
 		}
 	]
 };
-
-var rightItem = {
-	"type": "ui-list-item",
-	"name": "right-item",
-	"uid": 19213,
-	"z": 1,
-	"w": 450,
-	"h": 60,
-	"pivotX": 0.5,
-	"pivotY": 0.5,
-	"rotation": 0,
-	"opacity": 1,
-	"hMargin": 0,
-	"vMargin": 0,
-	"scaleX": 1,
-	"scaleY": 1,
-	"roundRadius": 5,
-	"runtimeVisible": true,
-	"enable": true,
-	"visible": true,
-	"text": "",
-	"locked": false,
-	"x": 0,
-	"y": 60,
-	"style": {
-		"lineWidth": 2,
-		"lineColor": "",
-		"fillColor": "",
-		"textColor": "",
-		"fontSize": 16,
-		"fontFamily": "serif",
-		"focusedFillColor": "",
-		"overFillColor": ""
-	},
-	"xAttr": 0,
-	"yAttr": 0,
-	"widthAttr": 0,
-	"heightAttr": 0,
-	"xParam": 1,
-	"yParam": 1,
-	"widthParam": 1,
-	"heightParam": 1,
-	"images": {
-		"display": 2
-	},
-	"events": {
-		"onClick": null,
-		"onLongPress": null,
-		"onRemoved": null
-	},
-	"children": [
-		{
-			"type": "ui-image",
-			"name": "image",
-			"uid": 14168,
-			"z": 0,
-			"w": 40,
-			"h": 40,
-			"pivotX": 0.5,
-			"pivotY": 0.5,
-			"rotation": 0,
-			"opacity": 1,
-			"hMargin": 0,
-			"vMargin": 0,
-			"scaleX": 1,
-			"scaleY": 1,
-			"runtimeVisible": true,
-			"enable": true,
-			"visible": true,
-			"text": "",
-			"x": 393,
-			"y": 7,
-			"style": {
-				"lineWidth": 2,
-				"lineColor": "#7d471b",
-				"fillColor": "White",
-				"textColor": "Blue",
-				"fontSize": 16,
-				"fontFamily": "sans"
-			},
-			"keepSizeWithImage": false,
-			"xAttr": 0,
-			"yAttr": 0,
-			"widthAttr": 0,
-			"heightAttr": 0,
-			"xParam": 0.8733333333333333,
-			"yParam": 1,
-			"widthParam": 1,
-			"heightParam": 1,
-			"imageScaleX": "0.960",
-			"imageScaleY": "1.211",
-			"images": {
-				"display": 4,
-				"default_bg": "assets/controls/image.png"
-			},
-			"events": {
-				"onClick": null,
-				"onDoubleClick": null,
-				"onUpdateTransform": null
-			},
-			"children": []
-		},
-		{
-			"type": "ui-tips",
-			"name": "tips",
-			"uid": 11813,
-			"z": 2,
-			"w": 174,
-			"h": 48,
-			"pivotX": 0.5,
-			"pivotY": 0.5,
-			"rotation": 0,
-			"opacity": 1,
-			"hMargin": 10,
-			"vMargin": 10,
-			"scaleX": 1,
-			"scaleY": 1,
-			"roundRadius": 8,
-			"runtimeVisible": true,
-			"enable": true,
-			"visible": true,
-			"text": "hello world",
-			"x": 193,
-			"y": 5,
-			"style": {
-				"lineWidth": 2,
-				"lineColor": "#83d45a",
-				"fillColor": "#a0e75a",
-				"textColor": "#000000",
-				"fontSize": 16,
-				"fontFamily": "serif",
-				"activeFillColor": "#f5f5f5"
-			},
-			"clickable": false,
-			"triangleSize": 16,
-			"hTextAlign": "right",
-			"vTextAlign": "middle",
-			"xAttr": 0,
-			"yAttr": 0,
-			"widthAttr": 0,
-			"heightAttr": 0,
-			"xParam": 0.4288888888888889,
-			"yParam": 0.08333333333333333,
-			"widthParam": 1,
-			"heightParam": 1,
-			"images": {
-				"display": 2
-			},
-			"events": {
-				"onClick": null,
-				"onUpdateTransform": null
-			},
-			"handle": {
-				"x": 188,
-				"y": 17
-			},
-			"children": []
-		}
-	]
-};
-
 //=============================================================================
 //以上数据通过生成自定义组件获得。
 //=============================================================================
 
 this.addItem = function(imgURL, text, atLeft) {
-    var json = atLeft ? leftItem : rightItem;
-    
-    var item = this.addChildWithJson(json);
+    var item = this.addChildWithJson(this.itemJson);
     var image = item.find("image");
     var tips = item.find("tips");
     
@@ -378,7 +215,6 @@ this.addRightItem = function(image ,text) {
     this.addItem(image, text, false);
 }
 
-this.spacer = 10;
 
 ```
 
