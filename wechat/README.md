@@ -1,6 +1,8 @@
 自定义组件实现微信风格的聊天控件
 ----------------------------------------
 
+![chatdemo](https://raw.githubusercontent.com/Holaverse/holastudio-components/master/wechat/chat_demo.png)
+
 * 1.先放一个列表视图控件，勾选列表项高度可变，设置列表项的间距为10。列表项只保留一项，并在里面放一个图片和一个UITips控件，把它们的X/Y/W/H都设置为固定。
 
 * 2.选中该列表视图控件，打开右见菜单“生成组件”，进入高级选项。
