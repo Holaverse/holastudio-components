@@ -198,6 +198,6 @@ _args.angle_ 表示按下位置与中心点的角度(度数)。
 
 
 
-[运行效果](http://54.223.93.3:10240/apprun.html?appid=previewgithubdrawapp8-cn_release908483a0-c6d7-11e5-b7ca-5b9b8a3da8ed)
+[运行效果](http://studio.holaverse.com/apprun.html?appid=previewgithubdrawapp8-cn_release908483a0-c6d7-11e5-b7ca-5b9b8a3da8ed)
 
-[在线编辑](http://54.223.93.3:10240/gamebuilder.php?appid=previewgithubdrawapp8-cn_release908483a0-c6d7-11e5-b7ca-5b9b8a3da8ed)
+[在线编辑](http://studio.holaverse.com/gamebuilder.php?appid=previewgithubdrawapp8-cn_release908483a0-c6d7-11e5-b7ca-5b9b8a3da8ed)
