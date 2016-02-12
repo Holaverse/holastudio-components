@@ -206,7 +206,3 @@ args.dx === 1 && args.dy === -1 表示向左下
 args.dx === -1 && args.dy === 1 表示向右上
 args.dx === -1 && args.dy === -1 表示向左上
 ```
-
-[运行效果](http://studio.holaverse.com/apprun.html?appid=previewgithubdrawapp8-cn_release908483a0-c6d7-11e5-b7ca-5b9b8a3da8ed)
-
-[在线编辑](http://studio.holaverse.com/gamebuilder.php?appid=previewgithubdrawapp8-cn_release908483a0-c6d7-11e5-b7ca-5b9b8a3da8ed)
