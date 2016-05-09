@@ -5,11 +5,11 @@
 
 * 2.选中该按钮控件，打开右见菜单“生成组件”，进入高级选项。
 
-* 3.添加事件onInit、onPointerDown、onPointerMove、onPointerUp和onPressed(需要新建该事件)。
+* 3.添加事件onInit、onPointerDown、onPointerMove、onPointerUp和onKeyPressed(需要新建该事件)。
 
 * 4.添加一个bool属性eightKeys来表示八向键盘(否则为四向键盘)。
 
-* 5.添加一个Int属性pressRepeat来表示如果按住不放，多长时间重复发送onPressed事件。
+* 5.添加一个Int属性keyRepeat来表示如果按住不放，多长时间重复发送onPressed事件。
 
 * 6.在onInit事件中添加自定义函数(为了防止自定义函数覆盖组件本身的函数，建议给自定义函数的加一个特殊的前缀)。
 ```
